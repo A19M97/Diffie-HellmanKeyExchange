@@ -22,20 +22,25 @@ namespace DHAssets
             _q = q;
         }
 
+        public double GetKey()
+        {
+            return _key;
+        }
+
         public void KeyExchange(Server server)
         {
             _xa = ChooseRandomNumber();
             var intermediateValue = CalculateIntermediateValue();
             server.ReceiveFromClient(intermediateValue);
             _yb = server.sendYb();
-            _key = Math.Pow(_yb, _xa);
+            _key = Math.Pow(_yb, _xa) % _q;
 
             double CalculateIntermediateValue() => Math.Pow(_alfa, _xa) % _q;
 
             double ChooseRandomNumber()
             {
                 var rand = new Random();
-                return rand.Next();
+                return rand.Next(1000);
             }
         }
 

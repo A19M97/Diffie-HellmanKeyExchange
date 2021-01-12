@@ -8,14 +8,39 @@ namespace DHAssets
 {
     public class Server
     {
-        public void ReceiveFromClient(double intermediateValue)
+        private readonly long _alfa;
+        private readonly long _q;
+        private double _xb;
+        private double _ya;
+        private double _key;
+
+        public Server(long alfa, long q)
         {
-            throw new NotImplementedException();
+            _alfa = alfa;
+            _q = q;
         }
 
-        public long sendYb()
+        public double GetKey()
         {
-            throw new NotImplementedException();
+            return _key;
+        }
+
+        public void ReceiveFromClient(double ya)
+        {
+            _xb = ChooseRandomNumber();
+            _ya = ya;
+            _key = Math.Pow(_ya, _xb) % _q;
+        }
+
+        public double sendYb()
+        {
+            return Math.Pow(_alfa, _xb) % _q;
+        }
+
+        private double ChooseRandomNumber()
+        {
+            var rand = new Random();
+            return rand.Next(1000);
         }
     }
 }
